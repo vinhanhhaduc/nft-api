@@ -1,16 +1,20 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { NFTItems } from './NFTItems.entity';
 @Entity()
-export class CollectionEntity {
+export class Collection {
+  @OneToMany(() => NFTItems, (nftItems: NFTItems) => nftItems.id)
+  nftItems: NFTItems;
+
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @Column({ default: null, type: 'timestamptz', nullable: false })
   createdAt: Date;
 
-  @Column()
+  @Column({ default: null, type: 'timestamptz', nullable: false })
   updateAt: Date;
 
-  @Column()
+  @Column({ default: '', nullable: false })
   name: string;
 
   @Column()
@@ -19,6 +23,6 @@ export class CollectionEntity {
   @Column()
   mediaUrl: string;
 
-  @Column()
+  @Column({ nullable: false })
   metaDataId: string;
 }

@@ -1,13 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  ManyToOne,
+} from 'typeorm';
+import { NFTItems } from './NFTItems.entity';
+import { User } from './user.entity';
 @Entity()
-export class NFTEntity {
+export class Trait {
+  @OneToOne(() => NFTItems, (nftItems: NFTItems) => nftItems.id)
+  nftItems: NFTItems;
+  @ManyToOne(() => User, (user: User) => user.id)
+  user: User;
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @Column({ default: null, type: 'timestamptz', nullable: false })
   createdAt: Date;
 
-  @Column()
+  @Column({ default: null, type: 'timestamptz', nullable: false })
   updateAt: Date;
 
   @Column()

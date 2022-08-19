@@ -1,28 +1,46 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToOne,
+} from 'typeorm';
+import { Collection } from './collection.entity';
+import { Trait } from './trait.entity';
 @Entity()
-export class NFTEntity {
+export class NFTItems {
+  @ManyToOne(() => Collection, (collection: Collection) => collection.id)
+  collection: Collection;
+
+  @OneToOne(() => Trait, (trait: Trait) => trait.id)
+  trait: Trait;
+
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @Column({ default: null, type: 'timestamptz', nullable: false })
   createdAt: Date;
 
-  @Column()
+  @Column({ default: null, type: 'timestamptz', nullable: false })
   updateAt: Date;
 
-  @Column()
+  @Column({ default: '', nullable: false })
   name: string;
 
   @Column()
   address: string;
 
-  @Column()
+  @Column({
+    type: 'numeric',
+    default: 0,
+    nullable: true,
+  })
   price: number;
 
   @Column()
   creatorId: string;
 
-  @Column()
+  @Column({ default: '', nullable: true })
   description: string;
 
   @Column()
